@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package V2;
+import static V2.FA.removeEle;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.HashSet;
@@ -22,6 +24,7 @@ public class AutomataProject extends javax.swing.JFrame {
     public AutomataProject() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,6 +35,12 @@ public class AutomataProject extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        checkDeterministic2 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        label6 = new java.awt.Label();
         Home2 = new javax.swing.JPanel();
         panel2 = new java.awt.Panel();
         label2 = new java.awt.Label();
@@ -80,15 +89,96 @@ public class AutomataProject extends javax.swing.JFrame {
         jButton19 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
-        checkDeterministic2 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jButton14 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        label6 = new java.awt.Label();
+        checkAcDFA = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        label3 = new java.awt.Label();
+        testStringTf1 = new java.awt.TextField();
+        jButton25 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel9.setBackground(new java.awt.Color(102, 51, 255));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("AUTOMATION");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(314, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addGap(294, 294, 294))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addGap(16, 16, 16))
+        );
+
+        jButton14.setBackground(new java.awt.Color(102, 51, 255));
+        jButton14.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        jButton14.setForeground(new java.awt.Color(255, 255, 255));
+        jButton14.setText("Check Deterministic");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(102, 102, 255));
+        jButton9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Back");
+        jButton9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        label6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        label6.setText("Next Step:");
+
+        javax.swing.GroupLayout checkDeterministic2Layout = new javax.swing.GroupLayout(checkDeterministic2);
+        checkDeterministic2.setLayout(checkDeterministic2Layout);
+        checkDeterministic2Layout.setHorizontalGroup(
+            checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(299, 299, 299))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
+                        .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(277, 277, 277))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(241, 241, 241))))
+        );
+        checkDeterministic2Layout.setVerticalGroup(
+            checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(checkDeterministic2Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
+        );
+
+        getContentPane().add(checkDeterministic2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panel2.setBackground(new java.awt.Color(204, 204, 204));
         panel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -617,85 +707,97 @@ public class AutomataProject extends javax.swing.JFrame {
 
         getContentPane().add(convertPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel9.setBackground(new java.awt.Color(102, 51, 255));
+        jPanel6.setBackground(new java.awt.Color(102, 51, 255));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("AUTOMATION");
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("AUTOMATION");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(314, Short.MAX_VALUE)
-                .addComponent(jLabel15)
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13)
                 .addGap(294, 294, 294))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel15)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13)
                 .addGap(16, 16, 16))
         );
 
-        jButton14.setBackground(new java.awt.Color(102, 51, 255));
-        jButton14.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        jButton14.setForeground(new java.awt.Color(255, 255, 255));
-        jButton14.setText("Check Deterministic");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
+        label3.setAlignment(java.awt.Label.CENTER);
+        label3.setBackground(new java.awt.Color(255, 255, 255));
+        label3.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
+        label3.setText("Input a String to test:");
+
+        testStringTf1.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
+        testStringTf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
+                testStringTf1ActionPerformed(evt);
             }
         });
 
-        jButton9.setBackground(new java.awt.Color(102, 102, 255));
-        jButton9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Back");
-        jButton9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButton25.setBackground(new java.awt.Color(102, 51, 255));
+        jButton25.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        jButton25.setForeground(new java.awt.Color(255, 255, 255));
+        jButton25.setText("Check Acceptance");
+        jButton25.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButton25ActionPerformed(evt);
             }
         });
 
-        label6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        label6.setText("Next Step:");
+        jButton12.setBackground(new java.awt.Color(102, 102, 255));
+        jButton12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
+        jButton12.setText("Back");
+        jButton12.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout checkDeterministic2Layout = new javax.swing.GroupLayout(checkDeterministic2);
-        checkDeterministic2.setLayout(checkDeterministic2Layout);
-        checkDeterministic2Layout.setHorizontalGroup(
-            checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(299, 299, 299))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(233, 233, 233))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, checkDeterministic2Layout.createSequentialGroup()
-                        .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(277, 277, 277))))
+        javax.swing.GroupLayout checkAcDFALayout = new javax.swing.GroupLayout(checkAcDFA);
+        checkAcDFA.setLayout(checkAcDFALayout);
+        checkAcDFALayout.setHorizontalGroup(
+            checkAcDFALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(checkAcDFALayout.createSequentialGroup()
+                .addGroup(checkAcDFALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(checkAcDFALayout.createSequentialGroup()
+                        .addGap(227, 227, 227)
+                        .addGroup(checkAcDFALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(testStringTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(checkAcDFALayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
-        checkDeterministic2Layout.setVerticalGroup(
-            checkDeterministic2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(checkDeterministic2Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+        checkAcDFALayout.setVerticalGroup(
+            checkAcDFALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(checkAcDFALayout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
+                .addComponent(testStringTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        getContentPane().add(checkDeterministic2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(checkAcDFA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -805,8 +907,29 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
-        convertPanel2.setVisible(true);
-        checkDeterministic2.setVisible(false);
+            int numStates=Integer.parseInt(numStatestf.getText());
+            int numTrans=Integer.parseInt(NumTransTf.getText());
+            
+            String alphabetStr =alphaTF.getText();
+            Set<Character> alphabet = new HashSet<>();
+            for (String s : alphabetStr.split(" ")) {
+                char c = s.charAt(0);
+                alphabet.add(c == 'e' ? 'ε' : c);
+            }
+
+            String transInput=allTransTf.getText();
+            String[] eachTrans=transInput.split(",");
+            
+            
+        if(newFa.testFA(alphabet,numStates,numTrans,eachTrans)){
+            convertPanel2.setVisible(true);
+            checkDeterministic2.setVisible(false);
+        }else{
+            checkAcDFA.setVisible(true);
+            checkDeterministic2.setVisible(false);
+        }
+        
+        
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -896,6 +1019,28 @@ public class AutomataProject extends javax.swing.JFrame {
         checkAc.setVisible(true);
     }//GEN-LAST:event_jButton21ActionPerformed
 
+    private void testStringTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringTf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testStringTf1ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        boolean isAccepted = newFa.isAccepting(testStringTf.getText());
+            if (isAccepted) {
+                JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Input is rejected by the DFA.");
+                
+            }
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        checkAcDFA.setVisible(false);
+        checkDeterministic2.setVisible(true);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -941,6 +1086,7 @@ public class AutomataProject extends javax.swing.JFrame {
     private java.awt.TextField allTransTf;
     private java.awt.TextField alphaTF;
     private javax.swing.JPanel checkAc;
+    private javax.swing.JPanel checkAcDFA;
     private javax.swing.JPanel checkDeterministic2;
     private javax.swing.JPanel checkSavePanel2;
     private javax.swing.JPanel convertPanel2;
@@ -948,6 +1094,7 @@ public class AutomataProject extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
@@ -956,6 +1103,7 @@ public class AutomataProject extends javax.swing.JFrame {
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -963,6 +1111,7 @@ public class AutomataProject extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -978,9 +1127,11 @@ public class AutomataProject extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
     private java.awt.Label label1;
     private java.awt.Label label2;
+    private java.awt.Label label3;
     private java.awt.Label label6;
     private java.awt.Label label7;
     private java.awt.Label label8;
@@ -988,5 +1139,6 @@ public class AutomataProject extends javax.swing.JFrame {
     private java.awt.Panel panel2;
     private java.awt.TextField sStateTf;
     private java.awt.TextField testStringTf;
+    private java.awt.TextField testStringTf1;
     // End of variables declaration//GEN-END:variables
 }

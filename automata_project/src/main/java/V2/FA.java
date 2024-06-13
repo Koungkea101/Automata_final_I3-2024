@@ -8,12 +8,15 @@ package V2;
  *
  * @author Nann Koungkea
  */
+import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 public class FA {
     private Set<Integer> states;
@@ -81,16 +84,132 @@ public class FA {
         }
         return closure;
     }
+    public static String[] removeEle(String[] array, String element) {
+        if (array == null || array.length == 0) {
+            return array;
+        }
+
+        int count = 0;
+        for (String s : array) {
+            if (s.equals(element)) {
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            return array;
+        }
+
+        String[] newArray = new String[array.length - count];
+        int index = 0;
+        
+        for (String s : array) {
+            if (!s.equals(element)) {
+                newArray[index++] = s;
+            }
+        }
+
+        return newArray;
+    }
     
-    private void testFA(Set<Character> alphabet,int numStates,int numTransitions) {
+    public boolean testFA(Set<Character> alphabet,int numStates,int numTransitions,String[] eachTrans) {
+        boolean isNFA;
     	int DFAnumTrans=alphabet.size()*numStates;
+    	boolean flagOneOrMore=false;
+    	boolean flagMissingTransition = false;
+    	
+    	ArrayList<Integer> allFromStateDFA=new ArrayList<>();
+        ArrayList<Integer> allFromStateUser=new ArrayList<>();
+        
+        
+        //find zero transition from the fromState
+        for(int j=0;j<numStates;j++) {
+        	allFromStateDFA.add(j);
+        	
+        }
+
+        for(int i=0;i<eachTrans.length;i++) {
+        	String[] temp = eachTrans[i].split("\\s+");
+        	
+            String fromState = temp[0];
+            
+            allFromStateUser.add(Integer.valueOf(fromState));
+            
+        }
+        
+        Set<Integer> set1=new HashSet<>(allFromStateDFA);
+        Set<Integer> set2=new HashSet<>(allFromStateUser);
+        System.out.println(allFromStateDFA);
+        System.out.println(allFromStateUser);
+        
+        boolean flagZero=set1.equals(set2);
+        
+        //find fromState without all the alphabet
+        Map<Integer, Set<Character>> stateTransitions = new HashMap<>();
+
+        for (String trans : eachTrans) {
+            String[] temp = trans.split("\\s+");
+            int fromState = Integer.parseInt(temp[0]);
+            char input = temp[1].charAt(0);
+
+            stateTransitions.computeIfAbsent(fromState, k -> new HashSet<>()).add(input);
+        }
+
+        for (int state = 0; state < numStates; state++) {
+            if (!stateTransitions.containsKey(state) || !stateTransitions.get(state).containsAll(alphabet)) {
+                flagMissingTransition = true;
+                break;
+            }
+        }
+        
+
+        //find one or more transition per input from same fromState
+    	for (int i = 0; i < eachTrans.length; i++) {
+            String[] temp = eachTrans[i].split("\\s+");
+
+            String fromState = temp[0];
+            String input = temp[1];
+            String toState = temp[2];
+
+            String removeCurTrans = eachTrans[i];
+            String[] tempEachTrans = removeEle(eachTrans, removeCurTrans);
+
+            for (int j = 0; j < tempEachTrans.length; j++) {
+                String[] oneEleTrans = tempEachTrans[j].split("\\s+");
+                // Further processing can be done here
+                if(fromState.equals(oneEleTrans[0]) && input.equals(oneEleTrans[1]) && !toState.equals(oneEleTrans[2])) {
+                	flagOneOrMore=true;
+                	break;
+                }
+            }
+        }
+
     	
     	if(alphabet.contains('e')) {
-    		System.out.println("This is a NFA!!");
+                JOptionPane.showMessageDialog(null, "This is a NFA!! because of epsilon");
+    		System.out.println("This is a NFA!! because of epsilon");
+                return isNFA=true;
     	}else if(numTransitions != DFAnumTrans){
-    		System.out.println("This is a NFA!!");
-    	}else {
-    		System.out.println("This is a DFA");
+                JOptionPane.showMessageDialog(null,"This is a NFA!! because transition is not enough for DFA");
+    		System.out.println("This is a NFA!! because transition is not enough for DFA");
+                return isNFA=true;
+    	}else if(flagOneOrMore ){
+            JOptionPane.showMessageDialog(null,"This is a NFA!! because more than one transition ");
+            System.out.println("This is a NFA!! because than one transition ");
+            return isNFA=true;
+    	}else if(!flagZero) {
+            JOptionPane.showMessageDialog(null,"This is a NFA because one or more of fromStates don't have a transition");
+            System.out.println("This is a NFA because one or more of fromStates don't have a transition");
+            return isNFA=true;
+    	}else if(flagMissingTransition) {
+            JOptionPane.showMessageDialog(null,"This is a NFA because of missing transition of one or more symbol");
+            System.out.println("This is a NFA because of missing transition of one or more symbol");
+            return isNFA=true;
+    	}
+    	else {
+            JOptionPane.showMessageDialog(null,"This is a DFA");
+            System.out.println("This is a DFA");
+            return isNFA=false;
     	}
     }
 }
