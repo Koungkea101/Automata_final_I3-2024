@@ -26,6 +26,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="checkDeterministic2">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="checkDeterministic2.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
@@ -162,6 +165,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="Home2">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="Home2.setVisible(true);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="700" height="470"/>
@@ -305,6 +311,9 @@
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
       </AccessibilityProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="Main.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
@@ -615,6 +624,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="checkAc">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="checkAc.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
@@ -772,6 +784,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="checkSavePanel2">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="checkSavePanel2.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
@@ -920,6 +935,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="convertPanel2">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="convertPanel2.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
@@ -1096,6 +1114,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="checkAcDFA">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="checkAcDFA.setVisible(false);"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>

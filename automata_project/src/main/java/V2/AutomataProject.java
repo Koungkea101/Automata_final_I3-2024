@@ -147,6 +147,8 @@ public class AutomataProject extends javax.swing.JFrame {
         label6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         label6.setText("Next Step:");
 
+        checkDeterministic2.setVisible(false);
+
         javax.swing.GroupLayout checkDeterministic2Layout = new javax.swing.GroupLayout(checkDeterministic2);
         checkDeterministic2.setLayout(checkDeterministic2Layout);
         checkDeterministic2Layout.setHorizontalGroup(
@@ -240,6 +242,8 @@ public class AutomataProject extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
+        Home2.setVisible(true);
+
         javax.swing.GroupLayout Home2Layout = new javax.swing.GroupLayout(Home2);
         Home2.setLayout(Home2Layout);
         Home2Layout.setHorizontalGroup(
@@ -263,6 +267,7 @@ public class AutomataProject extends javax.swing.JFrame {
 
         Main.setPreferredSize(new java.awt.Dimension(686, 452));
         Main.setLayout(null);
+        Main.setVisible(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Number of states:");
@@ -481,6 +486,8 @@ public class AutomataProject extends javax.swing.JFrame {
             }
         });
 
+        checkAc.setVisible(false);
+
         javax.swing.GroupLayout checkAcLayout = new javax.swing.GroupLayout(checkAc);
         checkAc.setLayout(checkAcLayout);
         checkAcLayout.setHorizontalGroup(
@@ -572,6 +579,8 @@ public class AutomataProject extends javax.swing.JFrame {
                 jButton22ActionPerformed(evt);
             }
         });
+
+        checkSavePanel2.setVisible(false);
 
         javax.swing.GroupLayout checkSavePanel2Layout = new javax.swing.GroupLayout(checkSavePanel2);
         checkSavePanel2.setLayout(checkSavePanel2Layout);
@@ -665,6 +674,8 @@ public class AutomataProject extends javax.swing.JFrame {
                 jButton23ActionPerformed(evt);
             }
         });
+
+        convertPanel2.setVisible(false);
 
         javax.swing.GroupLayout convertPanel2Layout = new javax.swing.GroupLayout(convertPanel2);
         convertPanel2.setLayout(convertPanel2Layout);
@@ -763,6 +774,8 @@ public class AutomataProject extends javax.swing.JFrame {
                 jButton12ActionPerformed(evt);
             }
         });
+
+        checkAcDFA.setVisible(false);
 
         javax.swing.GroupLayout checkAcDFALayout = new javax.swing.GroupLayout(checkAcDFA);
         checkAcDFA.setLayout(checkAcDFALayout);
@@ -922,8 +935,9 @@ public class AutomataProject extends javax.swing.JFrame {
             
             
         if(newFa.testFA(alphabet,numStates,numTrans,eachTrans)){
-            convertPanel2.setVisible(true);
+            convertPanel2.setVisible(false);
             checkDeterministic2.setVisible(false);
+            checkAcDFA.setVisible(true);
         }else{
             checkAcDFA.setVisible(true);
             checkDeterministic2.setVisible(false);
@@ -993,7 +1007,7 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         // TODO add your handling code here:
-        boolean isAccepted = newFa.isAccepting(testStringTf.getText());
+        boolean isAccepted = newFa.testString(testStringTf.getText());
             if (isAccepted) {
                 JOptionPane.showMessageDialog(null, "Input is accepted by the NFA.");
                 
@@ -1025,7 +1039,8 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         // TODO add your handling code here:
-        boolean isAccepted = newFa.isAccepting(testStringTf.getText());
+        boolean isAccepted = newFa.testString(testStringTf1.getText());
+        System.out.println(testStringTf.getText());
             if (isAccepted) {
                 JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
                 
@@ -1068,6 +1083,7 @@ public class AutomataProject extends javax.swing.JFrame {
         }
         //</editor-fold>
         Scanner scanner=new Scanner(System.in);
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
