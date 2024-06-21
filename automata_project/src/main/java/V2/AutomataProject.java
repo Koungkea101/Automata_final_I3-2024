@@ -3,7 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package V2;
-import static V2.FA.removeEle;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,12 +19,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Nann Koungkea
  */
 public class AutomataProject extends javax.swing.JFrame {
     private FA newFa;
+    private DFA newDFA;
     /**
      * Creates new form AutomataProject
      */
@@ -25,6 +34,7 @@ public class AutomataProject extends javax.swing.JFrame {
         initComponents();
     }
     
+    private static final String DB_FILE_PATH = "AutomataDB.csv";
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,6 +45,17 @@ public class AutomataProject extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        loadFAPanel = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        SavedDBtable = new javax.swing.JTable();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        sStateTf1 = new java.awt.TextField();
+        jLabel14 = new javax.swing.JLabel();
+        jButton15 = new javax.swing.JButton();
         checkDeterministic2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
@@ -45,6 +66,7 @@ public class AutomataProject extends javax.swing.JFrame {
         panel2 = new java.awt.Panel();
         label2 = new java.awt.Label();
         jButton8 = new javax.swing.JButton();
+        label4 = new java.awt.Label();
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         Main = new javax.swing.JPanel();
@@ -67,13 +89,7 @@ public class AutomataProject extends javax.swing.JFrame {
         NumTransTf = new java.awt.TextField();
         fStatesTf = new java.awt.TextField();
         jLabel5 = new javax.swing.JLabel();
-        checkAc = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        label1 = new java.awt.Label();
-        testStringTf = new java.awt.TextField();
-        jButton24 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         checkSavePanel2 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -99,6 +115,106 @@ public class AutomataProject extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        loadFAPanel.setMinimumSize(new java.awt.Dimension(686, 452));
+        loadFAPanel.setPreferredSize(new java.awt.Dimension(686, 452));
+        loadFAPanel.setLayout(null);
+
+        jPanel12.setBackground(new java.awt.Color(102, 51, 255));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("AUTOMATION");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(287, 287, 287)
+                .addComponent(jLabel18)
+                .addContainerGap(304, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addGap(16, 16, 16))
+        );
+
+        loadFAPanel.add(jPanel12);
+        jPanel12.setBounds(0, 0, 687, 54);
+
+        jButton13.setBackground(new java.awt.Color(0, 102, 204));
+        jButton13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
+        jButton13.setText("Load");
+        jButton13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        loadFAPanel.add(jButton13);
+        jButton13.setBounds(590, 410, 83, 42);
+
+        SavedDBtable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Num State", "Alphabets", "Start State", "NumTrans", "Num Final State", "Final State(s)", "Transition"
+            }
+        ));
+        jScrollPane1.setViewportView(SavedDBtable);
+
+        loadFAPanel.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 110, 660, 290);
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("AUTOMATION");
+        loadFAPanel.add(jLabel19);
+        jLabel19.setBounds(0, 0, 96, 20);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("All saved FA in the database:");
+        loadFAPanel.add(jLabel6);
+        jLabel6.setBounds(220, 70, 250, 25);
+
+        sStateTf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sStateTf1ActionPerformed(evt);
+            }
+        });
+        loadFAPanel.add(sStateTf1);
+        sStateTf1.setBounds(440, 410, 110, 30);
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel14.setText("Enter ID you want to load:");
+        loadFAPanel.add(jLabel14);
+        jLabel14.setBounds(260, 410, 180, 20);
+
+        jButton15.setBackground(new java.awt.Color(102, 102, 255));
+        jButton15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(255, 255, 255));
+        jButton15.setText("Back");
+        jButton15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        loadFAPanel.add(jButton15);
+        jButton15.setBounds(10, 410, 83, 42);
+
+        loadFAPanel.setVisible(false);
+
+        getContentPane().add(loadFAPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel9.setBackground(new java.awt.Color(102, 51, 255));
 
@@ -199,22 +315,34 @@ public class AutomataProject extends javax.swing.JFrame {
             }
         });
 
+        label4.setAlignment(java.awt.Label.CENTER);
+        label4.setFont(new java.awt.Font("Eras Demi ITC", 1, 24)); // NOI18N
+        label4.setForeground(new java.awt.Color(102, 102, 255));
+        label4.setName(""); // NOI18N
+        label4.setText("I3_GIC_Group 6 ");
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(label2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+            .addComponent(label2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(211, 211, 211)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label4, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(97, 97, 97)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
@@ -223,14 +351,14 @@ public class AutomataProject extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("AUTOMATION");
+        jLabel11.setText("FINITE AUTOMATION");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(310, Short.MAX_VALUE)
+                .addContainerGap(266, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addGap(294, 294, 294))
         );
@@ -289,7 +417,7 @@ public class AutomataProject extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(102, 51, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Design FA");
+        jButton1.setText("Load FA");
         jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,7 +425,7 @@ public class AutomataProject extends javax.swing.JFrame {
             }
         });
         Main.add(jButton1);
-        jButton1.setBounds(540, 400, 131, 42);
+        jButton1.setBounds(250, 400, 131, 42);
 
         jPanel3.setBackground(new java.awt.Color(102, 51, 255));
 
@@ -310,7 +438,7 @@ public class AutomataProject extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(296, Short.MAX_VALUE)
+                .addContainerGap(293, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(294, 294, 294))
         );
@@ -323,7 +451,7 @@ public class AutomataProject extends javax.swing.JFrame {
         );
 
         Main.add(jPanel3);
-        jPanel3.setBounds(0, 0, 686, 42);
+        jPanel3.setBounds(0, 0, 683, 42);
 
         jButton2.setBackground(new java.awt.Color(102, 102, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -426,102 +554,21 @@ public class AutomataProject extends javax.swing.JFrame {
         Main.add(jLabel5);
         jLabel5.setBounds(10, 280, 270, 30);
 
+        jButton3.setBackground(new java.awt.Color(102, 51, 255));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Design FA");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        Main.add(jButton3);
+        jButton3.setBounds(540, 400, 131, 42);
+
         getContentPane().add(Main, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
         Main.getAccessibleContext().setAccessibleName("");
-
-        jPanel5.setBackground(new java.awt.Color(102, 51, 255));
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("AUTOMATION");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(294, 294, 294))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(16, 16, 16))
-        );
-
-        label1.setAlignment(java.awt.Label.CENTER);
-        label1.setBackground(new java.awt.Color(255, 255, 255));
-        label1.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        label1.setText("Input a String to test:");
-
-        testStringTf.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
-        testStringTf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testStringTfActionPerformed(evt);
-            }
-        });
-
-        jButton24.setBackground(new java.awt.Color(102, 51, 255));
-        jButton24.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        jButton24.setForeground(new java.awt.Color(255, 255, 255));
-        jButton24.setText("Check Acceptance");
-        jButton24.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton24.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton24ActionPerformed(evt);
-            }
-        });
-
-        jButton11.setBackground(new java.awt.Color(102, 102, 255));
-        jButton11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Back");
-        jButton11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-
-        checkAc.setVisible(false);
-
-        javax.swing.GroupLayout checkAcLayout = new javax.swing.GroupLayout(checkAc);
-        checkAc.setLayout(checkAcLayout);
-        checkAcLayout.setHorizontalGroup(
-            checkAcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(checkAcLayout.createSequentialGroup()
-                .addGroup(checkAcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(checkAcLayout.createSequentialGroup()
-                        .addGap(227, 227, 227)
-                        .addGroup(checkAcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(testStringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(checkAcLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(191, Short.MAX_VALUE))
-        );
-        checkAcLayout.setVerticalGroup(
-            checkAcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(checkAcLayout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addComponent(testStringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        getContentPane().add(checkAc, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel11.setBackground(new java.awt.Color(102, 51, 255));
 
@@ -654,6 +701,11 @@ public class AutomataProject extends javax.swing.JFrame {
         jButton19.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         jButton19.setForeground(new java.awt.Color(255, 255, 255));
         jButton19.setText("Convert DFA to NFA");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
 
         jButton20.setBackground(new java.awt.Color(102, 51, 255));
         jButton20.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
@@ -817,6 +869,250 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        Main.setVisible(false);
+        loadFAPanel.setVisible(true);
+        
+        boolean isFirstLine = true;
+
+        
+        try (Scanner scanner = new Scanner(new File(DB_FILE_PATH))) {
+            DefaultTableModel model=(DefaultTableModel) SavedDBtable.getModel();
+            model.setRowCount(0);
+            
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+
+                // Skip the first line
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                model.addRow(parts);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(loadFAPanel, "Error reading CSV file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Main.setVisible(false);
+        Home2.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        Home2.setVisible(false);
+        Main.setVisible(true);
+        checkDeterministic2.setVisible(false);
+        convertPanel2.setVisible(false);
+        checkSavePanel2.setVisible(false);
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+            int numStates=Integer.parseInt(numStatestf.getText());
+            int numTrans=Integer.parseInt(NumTransTf.getText());
+            
+            String alphabetStr =alphaTF.getText();
+            Set<Character> alphabet = new HashSet<>();
+            for (String s : alphabetStr.split(" ")) {
+                char c = s.charAt(0);
+                alphabet.add(c == 'e' ? 'ε' : c);
+            }
+
+            String transInput=allTransTf.getText();
+            String[] eachTrans=transInput.split(",");
+            
+            
+        if(newFa.testFA(alphabet,numStates,numTrans,eachTrans)){
+            JOptionPane.showMessageDialog(null, "This is a NFA!!! You can convert into DFA");
+            convertPanel2.setVisible(true);
+            checkDeterministic2.setVisible(false);
+            checkAcDFA.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "This is a DFA");
+            checkAcDFA.setVisible(true);
+            checkDeterministic2.setVisible(false);
+        }
+        
+        
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        Main.setVisible(true);
+        checkDeterministic2.setVisible(false);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        convertPanel2.setVisible(false);
+        checkDeterministic2.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        // TODO add your handling code here:
+        checkSavePanel2.setVisible(true);
+        convertPanel2.setVisible(false);
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        checkSavePanel2.setVisible(false);
+        convertPanel2.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        //get the data from user
+        String numState=numStatestf.getText();
+        String alphabets=alphaTF.getText();
+        String startS=sStateTf.getText();
+        String nTrans=NumTransTf.getText();
+        String nFinalS=NumFStateTf.getText();
+        String finalS=fStatesTf.getText();
+        String originalTrans=allTransTf.getText();
+        
+        //change comma-seperated into semicolumn
+        String[] eachOgTrans = originalTrans.split(",");
+        StringBuilder semiCTrans = new StringBuilder();
+
+        for (int i = 0; i < eachOgTrans.length; i++) {
+            semiCTrans.append(eachOgTrans[i]);
+            if (i < eachOgTrans.length - 1) {
+                semiCTrans.append(";");
+            }
+        }
+        String finalSemiCTrans = semiCTrans.toString();
+        System.out.println(finalSemiCTrans);
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(DB_FILE_PATH))) {
+                String line;
+                String lastLine = null;
+
+                while ((line = reader.readLine()) != null) {
+                    lastLine = line;
+                }
+
+                // If the file is not empty, extract the ID from the last line
+                if (lastLine != null) {
+                    String[] values = lastLine.split(",");
+                    String newID = values[0];
+                    // Increment the employee ID for the new entry
+                    newID = String.valueOf(Integer.parseInt(newID) + 1);
+                    
+                    // Continue with the rest of your code
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_FILE_PATH, true))) {
+                        writer.write(newID + "," + numState + "," + alphabets + "," + startS + "," +
+                                nTrans + "," + nFinalS + "," + finalS + "," + finalSemiCTrans);
+                        writer.newLine(); // Add a new line for the next entry
+                        JOptionPane.showMessageDialog(null, "Data successfully added to the CSV file.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error adding data to the CSV file.");
+                    }
+                } else {
+                    // If the file is empty, set a default value for the employee ID
+                    String newID = "0";
+                    // Continue with the rest of your code
+                    // Continue with the rest of your code
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_FILE_PATH, true))) {
+                        writer.write(newID + "," + numState + "," + alphabets + "," + startS + "," +
+                                nTrans + "," + nFinalS + "," + finalS + "," + finalSemiCTrans);
+                        writer.newLine(); // Add a new line for the next entry
+                        JOptionPane.showMessageDialog(null, "Data successfully added to the CSV file.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error adding data to the CSV file.");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error reading the CSV file.");
+            }
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void NumFStateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumFStateTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NumFStateTfActionPerformed
+
+    private void numStatestfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numStatestfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numStatestfActionPerformed
+
+    private void alphaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alphaTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_alphaTFActionPerformed
+
+    private void sStateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sStateTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sStateTfActionPerformed
+
+    private void allTransTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allTransTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_allTransTfActionPerformed
+
+    private void NumTransTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumTransTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NumTransTfActionPerformed
+
+    private void fStatesTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fStatesTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fStatesTfActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // TODO add your handling code here:
+        checkSavePanel2.setVisible(false);
+        checkAcDFA.setVisible(true);
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void testStringTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringTf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testStringTf1ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        boolean isAccepted = newFa.testString(testStringTf1.getText());
+        System.out.println(testStringTf1.getText());
+            if (isAccepted) {
+                JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Input is rejected by the DFA.");
+                
+            }
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        checkAcDFA.setVisible(false);
+        checkDeterministic2.setVisible(true);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        checkAcDFA.setVisible(true);
+        loadFAPanel.setVisible(false);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void sStateTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sStateTf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sStateTf1ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        Main.setVisible(true);
+        loadFAPanel.setVisible(false);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
         
         
         if(numStatestf.getText().equals("")||alphaTF.getText().equals("")||sStateTf.getText().equals("")|| NumFStateTf.getText().equals("") || fStatesTf.getText().equals("") 
@@ -899,162 +1195,19 @@ public class AutomataProject extends javax.swing.JFrame {
                 Home2.setVisible(false);                
             }
         }
-          
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
-        Main.setVisible(false);
-        Home2.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-        Home2.setVisible(false);
-        Main.setVisible(true);
-        checkDeterministic2.setVisible(false);
-        convertPanel2.setVisible(false);
-        checkSavePanel2.setVisible(false);
-        checkAc.setVisible(false);
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-            int numStates=Integer.parseInt(numStatestf.getText());
-            int numTrans=Integer.parseInt(NumTransTf.getText());
-            
-            String alphabetStr =alphaTF.getText();
-            Set<Character> alphabet = new HashSet<>();
-            for (String s : alphabetStr.split(" ")) {
-                char c = s.charAt(0);
-                alphabet.add(c == 'e' ? 'ε' : c);
-            }
-
-            String transInput=allTransTf.getText();
-            String[] eachTrans=transInput.split(",");
-            
-            
-        if(newFa.testFA(alphabet,numStates,numTrans,eachTrans)){
-            convertPanel2.setVisible(false);
-            checkDeterministic2.setVisible(false);
-            checkAcDFA.setVisible(true);
-        }else{
-            checkAcDFA.setVisible(true);
-            checkDeterministic2.setVisible(false);
-        }
+        newDFA=Convertor.convertNFAtoDFA(newFa);
+        JOptionPane.showMessageDialog(null, "Conversion has completed. Your NFA has turned to DFA");
+        System.out.println(newDFA.states);
+        System.out.println(newDFA.alphabet);
+        System.out.println(newDFA.transitionFunction);
+        System.out.println(newDFA.startState);
+        System.out.println(newDFA.finalStates);
         
-        
-    }//GEN-LAST:event_jButton14ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        Main.setVisible(true);
-        checkDeterministic2.setVisible(false);
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        convertPanel2.setVisible(false);
-        checkDeterministic2.setVisible(true);
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        // TODO add your handling code here:
-        checkSavePanel2.setVisible(true);
-        convertPanel2.setVisible(false);
-    }//GEN-LAST:event_jButton20ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-        checkSavePanel2.setVisible(false);
-        convertPanel2.setVisible(true);
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton22ActionPerformed
-
-    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton23ActionPerformed
-
-    private void NumFStateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumFStateTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumFStateTfActionPerformed
-
-    private void numStatestfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numStatestfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_numStatestfActionPerformed
-
-    private void alphaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alphaTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_alphaTFActionPerformed
-
-    private void sStateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sStateTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sStateTfActionPerformed
-
-    private void allTransTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allTransTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_allTransTfActionPerformed
-
-    private void NumTransTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumTransTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumTransTfActionPerformed
-
-    private void fStatesTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fStatesTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fStatesTfActionPerformed
-
-    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // TODO add your handling code here:
-        boolean isAccepted = newFa.testString(testStringTf.getText());
-            if (isAccepted) {
-                JOptionPane.showMessageDialog(null, "Input is accepted by the NFA.");
-                
-            } else {
-                JOptionPane.showMessageDialog(null, "Input is rejected by the NFA.");
-                
-            }
-    }//GEN-LAST:event_jButton24ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-        checkSavePanel2.setVisible(true);
-        checkAc.setVisible(false);
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void testStringTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_testStringTfActionPerformed
-
-    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        // TODO add your handling code here:
-        checkSavePanel2.setVisible(false);
-        checkAc.setVisible(true);
-    }//GEN-LAST:event_jButton21ActionPerformed
-
-    private void testStringTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringTf1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_testStringTf1ActionPerformed
-
-    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-        // TODO add your handling code here:
-        boolean isAccepted = newFa.testString(testStringTf1.getText());
-        System.out.println(testStringTf.getText());
-            if (isAccepted) {
-                JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
-                
-            } else {
-                JOptionPane.showMessageDialog(null, "Input is rejected by the DFA.");
-                
-            }
-    }//GEN-LAST:event_jButton25ActionPerformed
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-        checkAcDFA.setVisible(false);
-        checkDeterministic2.setVisible(true);
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_jButton19ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1082,7 +1235,6 @@ public class AutomataProject extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AutomataProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        Scanner scanner=new Scanner(System.in);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1099,9 +1251,9 @@ public class AutomataProject extends javax.swing.JFrame {
     private javax.swing.JPanel Main;
     private java.awt.TextField NumFStateTf;
     private java.awt.TextField NumTransTf;
+    private javax.swing.JTable SavedDBtable;
     private java.awt.TextField allTransTf;
     private java.awt.TextField alphaTF;
-    private javax.swing.JPanel checkAc;
     private javax.swing.JPanel checkAcDFA;
     private javax.swing.JPanel checkDeterministic2;
     private javax.swing.JPanel checkSavePanel2;
@@ -1109,52 +1261,58 @@ public class AutomataProject extends javax.swing.JFrame {
     private java.awt.TextField fStatesTf;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private java.awt.Label label1;
+    private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Label label2;
     private java.awt.Label label3;
+    private java.awt.Label label4;
     private java.awt.Label label6;
     private java.awt.Label label7;
     private java.awt.Label label8;
+    private javax.swing.JPanel loadFAPanel;
     private java.awt.TextField numStatestf;
     private java.awt.Panel panel2;
     private java.awt.TextField sStateTf;
-    private java.awt.TextField testStringTf;
+    private java.awt.TextField sStateTf1;
     private java.awt.TextField testStringTf1;
     // End of variables declaration//GEN-END:variables
 }

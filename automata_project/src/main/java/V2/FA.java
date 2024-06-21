@@ -253,6 +253,7 @@ public class FA {
     	}
         return isNFA;
     }
+    
 
 }
 
