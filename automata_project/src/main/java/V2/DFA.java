@@ -1,8 +1,10 @@
 package V2;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class DFA {
     public Set<Integer> states;
@@ -32,6 +34,47 @@ public class DFA {
             throw new IllegalArgumentException("Deterministic transition already exists for this state and input.");
         }
         transitionFunction.get(fromState).put(input, toState);
+    }
+    
+    public boolean testString(String input) {
+        // Initialize the current state to the start state
+        int currState = startState;
+
+        // Process each character in the input string
+        for (char symbol : input.toCharArray()) {
+            // Check if there is a transition for the current state and input symbol
+            if (transitionFunction.get(currState).containsKey(symbol)) {
+                // Move to the next state according to the transition function
+                currState = transitionFunction.get(currState).get(symbol);
+            } else {
+                // If there is no transition for the input symbol, return false
+                return false;
+            }
+        }
+
+        // Check if the final state is one of the accepting states
+        return finalStates.contains(currState);
+    }
+    
+    // Getters for NFA components
+    public Set<Integer> getStates() {
+        return states;
+    }
+
+    public Set<Character> getAlphabet() {
+        return alphabet;
+    }
+
+    public Map<Integer, Map<Character, Integer>> getTransitionFunction() {
+        return transitionFunction;
+    }
+
+    public int getStartState() {
+        return startState;
+    }
+
+    public Set<Integer> getFinalStates() {
+        return finalStates;
     }
 
     

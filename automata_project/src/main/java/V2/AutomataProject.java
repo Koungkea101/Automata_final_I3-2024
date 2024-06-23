@@ -11,13 +11,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -27,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
 public class AutomataProject extends javax.swing.JFrame {
     private FA newFa;
     private DFA newDFA;
+    private boolean isNFA;
+    private final Minimizer minimize=new Minimizer();
     /**
      * Creates new form AutomataProject
      */
@@ -35,6 +42,50 @@ public class AutomataProject extends javax.swing.JFrame {
     }
     
     private static final String DB_FILE_PATH = "AutomataDB.csv";
+    
+    public static List<String> getDataById(String filePath, int id) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        List<String> result = new ArrayList<>();
+        // Loop through each line in the file
+        for (String line : lines) {
+            String[] values = line.split(",");
+
+            // Get the ID
+            int aId;
+            try {
+                aId = Integer.parseInt(values[0].trim()); 
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                continue; 
+            }
+
+            // If aId matches the ID we are looking for
+            if (aId == id) {
+                for (String value : values) {
+                    result.add(value.trim());
+                }
+                break; // Break once the matching ID is found
+            }
+        }
+
+        return result;
+    }
+    public static String convertSetToString(Set<Integer> set) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        
+        for (Integer num : set) {
+            sb.append(num).append(", ");
+        }
+        
+        // Remove the last comma and space if the set is not empty
+        if (!set.isEmpty()) {
+            sb.setLength(sb.length() - 2);
+        }
+        
+        sb.append("]");
+        return sb.toString();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,7 +104,7 @@ public class AutomataProject extends javax.swing.JFrame {
         SavedDBtable = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        sStateTf1 = new java.awt.TextField();
+        loadIDtf = new java.awt.TextField();
         jLabel14 = new javax.swing.JLabel();
         jButton15 = new javax.swing.JButton();
         checkDeterministic2 = new javax.swing.JPanel();
@@ -186,13 +237,13 @@ public class AutomataProject extends javax.swing.JFrame {
         loadFAPanel.add(jLabel6);
         jLabel6.setBounds(220, 70, 250, 25);
 
-        sStateTf1.addActionListener(new java.awt.event.ActionListener() {
+        loadIDtf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sStateTf1ActionPerformed(evt);
+                loadIDtfActionPerformed(evt);
             }
         });
-        loadFAPanel.add(sStateTf1);
-        sStateTf1.setBounds(440, 410, 110, 30);
+        loadFAPanel.add(loadIDtf);
+        loadIDtf.setBounds(440, 410, 110, 30);
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Enter ID you want to load:");
@@ -721,6 +772,15 @@ public class AutomataProject extends javax.swing.JFrame {
         jButton23.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         jButton23.setForeground(new java.awt.Color(255, 255, 255));
         jButton23.setText("Minimize DFA");
+        jButton23.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jButton23AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jButton23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton23ActionPerformed(evt);
@@ -936,7 +996,9 @@ public class AutomataProject extends javax.swing.JFrame {
             checkAcDFA.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "This is a DFA");
-            checkAcDFA.setVisible(true);
+            newDFA=Convertor.convertNFAtoDFA(newFa);
+            convertPanel2.setVisible(true);
+            checkAcDFA.setVisible(false);
             checkDeterministic2.setVisible(false);
         }
         
@@ -968,6 +1030,7 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         //get the data from user
+
         String numState=numStatestf.getText();
         String alphabets=alphaTF.getText();
         String startS=sStateTf.getText();
@@ -975,6 +1038,7 @@ public class AutomataProject extends javax.swing.JFrame {
         String nFinalS=NumFStateTf.getText();
         String finalS=fStatesTf.getText();
         String originalTrans=allTransTf.getText();
+        
         
         //change comma-seperated into semicolumn
         String[] eachOgTrans = originalTrans.split(",");
@@ -1036,7 +1100,21 @@ public class AutomataProject extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
+        System.out.println("minimise pressed");
+//        if(newDFA==null){
+//            newFa=minimize.minimizeDFA(newFa);
+//            String info="Your new DFA has the following element: \n 1.All states: "+newFa.allStates+"\n 2.Alphabets: "+ newFa.alphabet+"\n 3.Transitions: "+newFa.transitionFunction+"\n 4. StartState: "
+//                + newFa.startState+"\n 5.Final State: "+newFa.finalStates;
+//        
+//            JOptionPane.showMessageDialog(null, "Minisation has completed."+info);
+//        }
+
+        newDFA=minimize.minimizeDFA(newDFA);
+        String info="Your new DFA has the following element: \n 1.All states: "+newDFA.states+"\n 2.Alphabets: "+ newDFA.alphabet+"\n 3.Transitions: "+newDFA.transitionFunction+"\n 4. StartState: "
+                + newDFA.startState+"\n 5.Final State: "+newDFA.finalStates;
+        
+        JOptionPane.showMessageDialog(null, "Minisation has completed."+info);
+        
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void NumFStateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumFStateTfActionPerformed
@@ -1079,8 +1157,19 @@ public class AutomataProject extends javax.swing.JFrame {
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         // TODO add your handling code here:
-        boolean isAccepted = newFa.testString(testStringTf1.getText());
-        System.out.println(testStringTf1.getText());
+        if(newFa==null){
+            boolean isAccepted = newDFA.testString(testStringTf1.getText());
+            System.out.println(testStringTf1.getText());
+                if (isAccepted) {
+                    JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Input is rejected by the DFA.");
+
+                }
+        }else{
+            boolean isAccepted = newFa.testString(testStringTf1.getText());
+            System.out.println(testStringTf1.getText());
             if (isAccepted) {
                 JOptionPane.showMessageDialog(null, "Input is accepted by the DFA.");
                 
@@ -1088,6 +1177,8 @@ public class AutomataProject extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Input is rejected by the DFA.");
                 
             }
+        }
+        
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -1097,13 +1188,111 @@ public class AutomataProject extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        checkAcDFA.setVisible(true);
-        loadFAPanel.setVisible(false);
+        if (loadIDtf.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter an ID!!");
+        } else {
+            try {
+                checkDeterministic2.setVisible(true);
+                loadFAPanel.setVisible(false);
+                int wantedId = Integer.parseInt(loadIDtf.getText());
+                List<String> retrievedData = getDataById(DB_FILE_PATH, wantedId);
+
+                if (retrievedData.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Data not found");
+                } else {
+                    if (retrievedData.size() >= 8) {
+                        String nState = retrievedData.get(1);
+                        String alphabet = retrievedData.get(2);
+                        String startS = retrievedData.get(3);
+                        String numTrans = retrievedData.get(4);
+                        String numFinalS = retrievedData.get(5);
+                        String finalS = retrievedData.get(6);
+                        String trans = retrievedData.get(7);
+
+//                        System.out.println("Parsed Data:");
+//                        System.out.println("nState: " + nState);
+//                        System.out.println("Alphabet: " + alphabet);
+//                        System.out.println("Start State: " + startS);
+//                        System.out.println("Number of Transitions: " + numTrans);
+//                        System.out.println("Number of Final States: " + numFinalS);
+//                        System.out.println("Final States: " + finalS);
+//                        System.out.println("Transitions: " + trans);
+
+                        // Create new FA
+                        int numStates = Integer.parseInt(nState);  // Corrected to use nState
+                        Set<Integer> states = new HashSet<>();
+                        for (int i = 0; i < numStates; i++) {
+                            states.add(i);
+                        }
+
+                        Set<Character> alphabetSet = new HashSet<>();
+                        for (String s : alphabet.split(" ")) {
+                            char c = s.charAt(0);
+                            alphabetSet.add(c == 'e' ? 'ε' : c);
+                        }
+
+                        String[] eachfState = finalS.split("\\s+");
+                        Set<Integer> finalStates = new HashSet<>();
+                        if (eachfState.length == Integer.parseInt(numFinalS)) {
+                            try {
+                                for (String fState : eachfState) {
+                                    finalStates.add(Integer.valueOf(fState));
+                                }
+                            } catch (NumberFormatException e) {
+                                System.err.println("Invalid input: Number of final states not same as final state input");
+                            }
+                        } else {
+                            System.err.println("Invalid input: Number of final states not same as final state input");
+                        }
+
+                        newFa = new FA(states, alphabetSet, Integer.parseInt(startS), finalStates);
+//                        System.out.println("new FA");
+
+                        // Transition
+                        boolean flag = false;
+                        String[] eachTrans = trans.split(";");
+
+                        for (String transition : eachTrans) {
+                            System.out.println(transition);
+                            String[] eachChar = transition.trim().split("\\s+");
+
+                            if (eachChar.length == 3) {
+                                try {
+                                    int fromState = Integer.parseInt(eachChar[0]);
+                                    char input = eachChar[1].charAt(0);
+                                    int toState = Integer.parseInt(eachChar[2]);
+
+                                    newFa.addTransition(fromState, input == 'e' ? 'ε' : input, toState);
+                                    flag = true;
+                                    System.out.println("fromState: " + fromState + ", input: " + input + ", toState: " + toState);
+                                } catch (NumberFormatException e) {
+                                    System.err.println("Invalid format in trans: " + transition);
+                                }
+                            } else {
+                                System.err.println("Invalid format in trans: " + transition);
+                            }
+                        }
+
+                        if (!flag) {
+                            System.err.println("No valid transitions found.");
+                        }
+
+                    } else {
+                        System.out.println("Retrieved data does not have enough fields.");
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(AutomataProject.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid ID format. Please enter a numeric ID.");
+            }
+        }
+                
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void sStateTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sStateTf1ActionPerformed
+    private void loadIDtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadIDtfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_sStateTf1ActionPerformed
+    }//GEN-LAST:event_loadIDtfActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
@@ -1200,19 +1389,41 @@ public class AutomataProject extends javax.swing.JFrame {
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
         newDFA=Convertor.convertNFAtoDFA(newFa);
-        JOptionPane.showMessageDialog(null, "Conversion has completed. Your NFA has turned to DFA");
+        Set<Character> DfaAlpha=new HashSet<>();;
+        if(newDFA.alphabet.contains('ε')){
+            for (Character ch : newDFA.alphabet) { // Iterate through all alphabet
+                
+                if (ch != 'ε') { // Check if it is not 'ε'
+                    DfaAlpha.add(ch); 
+                  
+                }
+            }
+        }
+        newDFA.alphabet.clear();
+        for(Character ch:DfaAlpha){
+            newDFA.alphabet.add(ch);
+        }
+        
         System.out.println(newDFA.states);
         System.out.println(newDFA.alphabet);
         System.out.println(newDFA.transitionFunction);
         System.out.println(newDFA.startState);
         System.out.println(newDFA.finalStates);
+        String info="Your new DFA has the following element: \n 1.All states: "+newDFA.states+"\n 2.Alphabets: "+ DfaAlpha+"\n 3.Transitions: "+newDFA.transitionFunction+"\n 4. StartState: "
+                + newDFA.startState+"\n 5.Final State: "+newDFA.finalStates;
+        
+        JOptionPane.showMessageDialog(null, "Conversion has completed."+info);
         
     }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton23AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jButton23AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton23AncestorAdded
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1235,7 +1446,7 @@ public class AutomataProject extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AutomataProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+        boolean isNFA;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1309,10 +1520,10 @@ public class AutomataProject extends javax.swing.JFrame {
     private java.awt.Label label7;
     private java.awt.Label label8;
     private javax.swing.JPanel loadFAPanel;
+    private java.awt.TextField loadIDtf;
     private java.awt.TextField numStatestf;
     private java.awt.Panel panel2;
     private java.awt.TextField sStateTf;
-    private java.awt.TextField sStateTf1;
     private java.awt.TextField testStringTf1;
     // End of variables declaration//GEN-END:variables
 }
